@@ -1,6 +1,3 @@
-yaml
-name: Windows Build
-
 on:
   workflow_dispatch: # Ermöglicht den manuellen Start über den "Run workflow" Button
 
