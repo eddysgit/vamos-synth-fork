@@ -4,7 +4,6 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
@@ -12,13 +11,13 @@ jobs:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake -B build -G "Visual Studio 17 2022" -A x64
+      run: cmake -B build -G "Visual Studio 18 2026" -A x64
 
     - name: Build VST3
-      run: cmake --build build --config Release
+      run: cmake --build build --config Release --parallel 4
 
     - name: Upload VST3 Artifact
       uses: actions/upload-artifact@v4
       with:
         name: Vamos-VST3-Windows
-        path: build/Release/Vamos_artefacts/VST3/
+        path: build/Release/Vamos_artefacts/VST3
