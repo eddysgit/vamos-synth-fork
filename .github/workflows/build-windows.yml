@@ -1,6 +1,8 @@
 on:
   workflow_dispatch: # Ermöglicht den manuellen Start über den "Run workflow" Button
 
+name: Windows Build
+
 jobs:
   build:
     runs-on: windows-latest
@@ -16,8 +18,15 @@ jobs:
     - name: Build VST3
       run: cmake --build build --config Release --parallel 4
 
+    - name: Locate VST3 Plugin
+      id: locate
+      shell: cmd
+      run: |
+        for /f "delims=" %%i in ('dir /b /s build\*_artefacts\VST3') do (
+          echo VST3_PATH=%%i >> %GITHUB_ENV%)
+          
     - name: Upload VST3 Artifact
       uses: actions/upload-artifact@v4
       with:
         name: Vamos-VST3-Windows
-        path: build/Release/Vamos_artefacts/VST3
+        path: ${{ env.VST3_PATH }}
